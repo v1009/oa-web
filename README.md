@@ -14,3 +14,6 @@
 限流技术：后续增加
 
 部署运维技术：jenkins自动化部署
+
+前端地址：https://github.com/v1009/oa-web.git
+后端地址：https://github.com/v1009/oa-jk.git
