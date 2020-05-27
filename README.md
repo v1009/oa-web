@@ -3,7 +3,7 @@
 
 技术架构如下
 
-后端技术：springboot2.2 + spring config(后续) + mybatis3.4 + mysql 5.7
+后端技术：springboot2.2 + springcloud config(后续) + mybatis3.4 + mysql 5.7
 
 前端技术：vue
 
