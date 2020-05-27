@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-// window.baseUrl = 'http://localhost:9141/';
-window.baseUrl = 'http://jk.manage.oa.huashangtong.top/'
+window.baseUrl = 'http://localhost:9141/'
 
 axios.defaults.timeout = 8000
 axios.defaults.baseURL = window.baseUrl
