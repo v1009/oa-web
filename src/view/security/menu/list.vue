@@ -43,7 +43,7 @@
 <script>
 
 import MenuAdd from '@/view/security/menu/add'
-import {S003002, S003004} from '@/request/api'
+import {menu_modify, menu_findAllMenu} from '@/request/api'
 
 export default {
   name: 'list',
@@ -117,7 +117,7 @@ export default {
     loadAllMenu () {
       const me = this
       const params = {}
-      S003004(params).then(res => {
+      menu_findAllMenu(params).then(res => {
         const code = res.code
         if (code === 200) {
           me.menuData = res.data
@@ -168,7 +168,7 @@ export default {
       params.path = path
       params.icon = icon
       me.btn.submit.loading = true
-      S003002(params).then(res => {
+      menu_modify(params).then(res => {
         me.btn.submit.loading = false
         const code = res.code
         if (code === 200) {
