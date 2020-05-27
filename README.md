@@ -15,5 +15,7 @@
 
 部署运维技术：jenkins自动化部署
 
+开发工具：前端（vscode) ,后台 （idea 2018）
+
 前端地址：https://github.com/v1009/oa-web.git
 后端地址：https://github.com/v1009/oa-jk.git
