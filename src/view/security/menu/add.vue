@@ -29,7 +29,7 @@
 <script>
 
 import SelectTree from '@/components/plugin/TreeSelect.vue'
-import {S003001, S003004} from '@/request/api'
+import {menu_add, menu_findAllMenu} from '@/request/api'
 
 export default {
   name: 'add',
@@ -94,7 +94,7 @@ export default {
       params.path = path
       params.icon = icon
       me.btn.submit.loading = true
-      S003001(params).then(res => {
+      menu_add(params).then(res => {
         me.btn.submit.loading = false
         const code = res.code
         if (code === 200) {
@@ -115,7 +115,7 @@ export default {
     loadAllMenu () {
       const me = this
       const params = {}
-      S003004(params).then(res => {
+      menu_findAllMenu(params).then(res => {
         const code = res.code
         if (code === 200) {
           me.menuData = res.data
