@@ -15,6 +15,10 @@ export const user_add = p => post('user/add', p)
 export const user_modify = p => post('user/modify', p)
 export const user_del = p => post('user/del', p)
 export const user_findModelByUserId = p => post('user/findModelByUserId', p)
+// 授权角色给用户
+export const user_addRoleToUser = p => post('user/addRoleToUser', p)
+// 根据用户查询角色
+export const user_queryRoleByUser = p => post('user/queryRoleByUser', p)
 
 /**
  * 角色管理

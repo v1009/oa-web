@@ -14,8 +14,6 @@ import Cookies from 'js-cookie'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-// 定义全局变量
-Vue.prototype.$cookie = Cookies
 // layer定义
 Vue.prototype.$layer = layer(Vue)
 
