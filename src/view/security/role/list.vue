@@ -34,6 +34,11 @@
             <el-button
               type="text"
               size="mini"
+              @click="handleConfigMenu(scope.$index, scope.row)">配置菜单
+            </el-button>
+            <el-button
+              type="text"
+              size="mini"
               @click="handleEdit(scope.$index, scope.row)">编辑
             </el-button>
             <el-button
@@ -178,6 +183,9 @@ export default {
       }).catch(() => {
 
       })
+    },
+    handleConfigRole (index, row) {
+      
     }
   },
   mounted () {

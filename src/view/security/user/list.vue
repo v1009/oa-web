@@ -193,7 +193,7 @@ export default {
       })
     },
     handleConfigRole (index, row) {
-      const me = this
+      const userId = row.userId
       const popupLayer = this.$layer.iframe({
         title: '配置角色',
         shadeClose: false,
@@ -202,6 +202,7 @@ export default {
           content: ConfigRole, // 传递的组件对象
           parent: this, // 当前的vue对象
           data: {// props
+            userId: userId,
             closeParentLayer () {
               this.$layer.close(popupLayer)
             }
