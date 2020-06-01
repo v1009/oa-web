@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { role_addMenuToRole, menu_findAllMenuByRoleId } from '@/request/api'
+import { role_addMenuToRole, menu_findAllMenuByRole } from '@/request/api'
 
 export default {
   name: 'configRole',
@@ -49,8 +49,8 @@ export default {
     findAllMenuByRole () {
       const me = this
       const params = {}
-      params.userId = me.userId
-      menu_findAllMenuByRoleId(params).then(res => {
+      params.roleId = me.roleId
+      menu_findAllMenuByRole(params).then(res => {
         const code = res.code
         if (code === 200) {
           me.menuData = res.data
