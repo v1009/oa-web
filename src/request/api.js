@@ -27,6 +27,7 @@ export const role_list = p => post('role/list', p)
 export const role_add = p => post('role/add', p)
 export const role_modify = p => post('role/modify', p)
 export const role_del = p => post('role/del', p)
+export const role_addMenuToRole = p => post('role/addMenuToRole', p)
 
 /**
  * 菜单管理
@@ -39,8 +40,8 @@ export const menu_modify = p => post('/menu/modify', p)
 export const menu_findUserMenu = p => post('/menu/findUserMenu', p)
 // 查询所有菜单
 export const menu_findAllMenu = p => post('/menu/findAllMenu', p)
-// 查询菜单通过角色
-export const menu_findMenuByRole = p => post('/menu/findMenuByRole', p)
+// 查询所有菜单通过角色
+export const menu_findAllMenuByRoleId = p => post('/menu/findAllMenuByRoleId', p)
 // 启用菜单
 export const menu_enable = p => post('/menu/enable', p)
 // 停用菜单

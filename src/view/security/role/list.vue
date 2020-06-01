@@ -67,6 +67,7 @@
 import {role_list, role_del} from '@/request/api'
 import RoleAdd from '@/view/security/role/add'
 import RoleModify from '@/view/security/role/modify'
+import ConfigMenu from '@/view/security/role/configMenu'
 
 export default {
   name: 'List',
@@ -120,7 +121,7 @@ export default {
     add () {
       const me = this
       const popupLayer = this.$layer.iframe({
-        title: '添加用户',
+        title: '添加角色',
         shadeClose: false,
         area: ['500px', '450px'],
         content: {
@@ -184,8 +185,23 @@ export default {
 
       })
     },
-    handleConfigRole (index, row) {
-      
+    handleConfigMenu (index, row) {
+      const roleId = row.roleId
+      const popupLayer = this.$layer.iframe({
+        title: '配置菜单',
+        shadeClose: false,
+        area: ['500px', '450px'],
+        content: {
+          content: ConfigMenu, // 传递的组件对象
+          parent: this, // 当前的vue对象
+          data: {// props
+            roleId: roleId,
+            closeParentLayer () {
+              this.$layer.close(popupLayer)
+            }
+          }
+        }
+      })
     }
   },
   mounted () {
