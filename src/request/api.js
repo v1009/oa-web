@@ -42,6 +42,8 @@ export const menu_findUserMenu = p => post('/menu/findUserMenu', p)
 export const menu_findAllMenu = p => post('/menu/findAllMenu', p)
 // 查询所有菜单通过角色
 export const menu_findAllMenuByRole = p => post('/menu/findAllMenuByRole', p)
+// 获取当前登录用户的菜单
+export const menu_findMenu = p => post('/menu/findMenu', p)
 // 启用菜单
 export const menu_enable = p => post('/menu/enable', p)
 // 停用菜单
