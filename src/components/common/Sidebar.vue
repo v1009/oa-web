@@ -17,35 +17,35 @@
         </div>
       </div>
       <template v-for="menu in items">
-        <template v-if="menu.subs">
+        <template v-if="menu.children">
           <el-submenu :index="menu.id" :key="menu.id">
             <template slot="title">
               <i :class="menu.icon"></i>
-              <span slot="title">{{ menu.name }}</span>
+              <span slot="title">{{ menu.label }}</span>
             </template>
-            <template v-for="subItem in menu.subs">
-              <el-submenu v-if="subItem.subs" :index="subItem.id" :key="subItem.id">
-                <template slot="title">{{ subItem.name}}</template>
+            <template v-for="subItem in menu.children">
+              <el-submenu v-if="subItem.children" :index="subItem.id" :key="subItem.id">
+                <template slot="title">{{ subItem.label}}</template>
                 <el-menu-item
-                  v-for="(threeItem,i) in subItem.subs"
+                  v-for="(threeItem,i) in subItem.children"
                   :key="i"
                   :index="threeItem.id"
                   @click="openUrl(threeItem.id,threeItem.path)"
-                >{{ threeItem.name }}</el-menu-item>
+                >{{ threeItem.label }}</el-menu-item>
               </el-submenu>
               <el-menu-item
                 v-else
                 :index="subItem.id"
                 :key="subItem.id"
                 @click="openUrl(subItem.id,subItem.path)"
-              >{{ subItem.name }}</el-menu-item>
+              >{{ subItem.label }}</el-menu-item>
             </template>
           </el-submenu>
         </template>
         <template v-else>
           <el-menu-item :index="menu.id" :key="menu.id" @click="openUrl(menu.id,menu.path)">
             <i :class="menu.icon"></i>
-            <span slot="title">{{ menu.name }}</span>
+            <span slot="title">{{ menu.label }}</span>
           </el-menu-item>
         </template>
       </template>
@@ -58,51 +58,51 @@ import bus from '../common/bus'
 import { menu_findMenu } from '@/request/api'
 
 export default {
-  name: 'Sidebar',
+  label: 'Sidebar',
   data () {
     return {
       collapse: false,
       items: [
-        {
-          id: 1,
-          icon: 'el-icon-platform-eleme',
-          name: '控制台',
-          path: '/dashboard'
-        },
-        {
-          id: 2,
-          icon: 'el-icon-star-off',
-          name: '权限管理',
-          subs: [
-            {
-              id: 201,
-              name: '用户管理',
-              path: '/security/user/list'
-            },
-            {
-              id: 202,
-              name: '角色管理',
-              path: '/security/role/list'
-            },
-            {
-              id: 203,
-              name: '菜单管理',
-              path: '/security/menu/list'
-            }
-          ]
-        },
-        {
-          id: 3,
-          icon: 'el-icon-picture-outline',
-          name: '日报管理',
-          subs: [
-            {
-              id: 301,
-              name: '日报列表',
-              path: '/daily/list'
-            }
-          ]
-        }
+        // {
+        //   id: 1,
+        //   icon: 'el-icon-platform-eleme',
+        //   label: '控制台',
+        //   path: '/dashboard'
+        // },
+        // {
+        //   id: 2,
+        //   icon: 'el-icon-star-off',
+        //   label: '权限管理',
+        //   children: [
+        //     {
+        //       id: 201,
+        //       label: '用户管理',
+        //       path: '/security/user/list'
+        //     },
+        //     {
+        //       id: 202,
+        //       label: '角色管理',
+        //       path: '/security/role/list'
+        //     },
+        //     {
+        //       id: 203,
+        //       label: '菜单管理',
+        //       path: '/security/menu/list'
+        //     }
+        //   ]
+        // },
+        // {
+        //   id: 3,
+        //   icon: 'el-icon-picture-outline',
+        //   label: '日报管理',
+        //   children: [
+        //     {
+        //       id: 301,
+        //       label: '日报列表',
+        //       path: '/daily/list'
+        //     }
+        //   ]
+        // }
       ]
     }
   },
@@ -111,8 +111,8 @@ export default {
       return this.$store.state.menuIdx
     }
   },
-  mounted: {
-
+  mounted () {
+    this.loadMenu()
   },
   created () {
     bus.$on('collapse', msg => {
@@ -134,7 +134,7 @@ export default {
       menu_findMenu(params).then(res => {
         const code = res.code
         if (code === 200) {
-          me.menuData = res.data
+          me.items = res.data
         } else {
           this.$message.error(res.resMsg)
         }
