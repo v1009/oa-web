@@ -36,8 +36,6 @@ export const role_addMenuToRole = p => post('role/addMenuToRole', p)
 export const menu_add = p => post('/menu/add', p)
 // 修改菜单
 export const menu_modify = p => post('/menu/modify', p)
-// 查询指定用户的菜单
-export const menu_findUserMenu = p => post('/menu/findUserMenu', p)
 // 查询所有菜单
 export const menu_findAllMenu = p => post('/menu/findAllMenu', p)
 // 查询所有菜单通过角色

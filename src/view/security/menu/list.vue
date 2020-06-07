@@ -131,7 +131,7 @@ export default {
       me.form.id = item.id
       me.form.menuName = item.label
       me.form.path = item.path
-      me.form.icon = item.iconCls
+      me.form.icon = item.icon
     },
     doUpdate () {
       const me = this
