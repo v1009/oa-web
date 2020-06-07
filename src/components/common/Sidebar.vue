@@ -18,24 +18,24 @@
       </div>
       <template v-for="menu in items">
         <template v-if="menu.children">
-          <el-submenu :index="menu.id" :key="menu.id">
+          <el-submenu :index="String(menu.id)" :key="menu.id">
             <template slot="title">
               <i :class="menu.icon"></i>
               <span slot="title">{{ menu.label }}</span>
             </template>
             <template v-for="subItem in menu.children">
-              <el-submenu v-if="subItem.children" :index="subItem.id" :key="subItem.id">
+              <el-submenu v-if="subItem.children" :index="String(subItem.id)" :key="subItem.id">
                 <template slot="title">{{ subItem.label}}</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.children"
                   :key="i"
-                  :index="threeItem.id"
+                  :index="String(threeItem.id)"
                   @click="openUrl(threeItem.id,threeItem.path)"
                 >{{ threeItem.label }}</el-menu-item>
               </el-submenu>
               <el-menu-item
                 v-else
-                :index="subItem.id"
+                :index="String(subItem.id)"
                 :key="subItem.id"
                 @click="openUrl(subItem.id,subItem.path)"
               >{{ subItem.label }}</el-menu-item>
@@ -43,7 +43,7 @@
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="menu.id" :key="menu.id" @click="openUrl(menu.id,menu.path)">
+          <el-menu-item :index="String(menu.id)" :key="menu.id" @click="openUrl(menu.id,menu.path)">
             <i :class="menu.icon"></i>
             <span slot="title">{{ menu.label }}</span>
           </el-menu-item>
@@ -108,7 +108,7 @@ export default {
   },
   computed: {
     activeMenu () {
-      return this.$store.state.menuIdx
+      return String(this.$store.state.menuIdx)
     }
   },
   mounted () {
