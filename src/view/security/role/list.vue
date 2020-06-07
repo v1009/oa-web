@@ -52,7 +52,7 @@
       <div style="margin-top: 15px;">
         <el-pagination
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="currPage"
           background
           layout="prev, pager, next"
           :total="10">

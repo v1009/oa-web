@@ -18,24 +18,24 @@
       </div>
       <template v-for="menu in items">
         <template v-if="menu.subs">
-          <el-submenu :index="menu.id" :key="menu.id">
+          <el-submenu :index="String(menu.id)" :key="menu.id">
             <template slot="title">
               <i :class="menu.icon"></i>
               <span slot="title">{{ menu.name }}</span>
             </template>
             <template v-for="subItem in menu.subs">
-              <el-submenu v-if="subItem.subs" :index="subItem.id" :key="subItem.id">
+              <el-submenu v-if="subItem.subs" :index="String(subItem.id)" :key="subItem.id">
                 <template slot="title">{{ subItem.name}}</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.subs"
                   :key="i"
-                  :index="threeItem.id"
+                  :index="String(threeItem.id)"
                   @click="openUrl(threeItem.id,threeItem.path)"
                 >{{ threeItem.name }}</el-menu-item>
               </el-submenu>
               <el-menu-item
                 v-else
-                :index="subItem.id"
+                :index="String(subItem.id)"
                 :key="subItem.id"
                 @click="openUrl(subItem.id,subItem.path)"
               >{{ subItem.name }}</el-menu-item>
@@ -43,7 +43,7 @@
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="menu.id" :key="menu.id" @click="openUrl(menu.id,menu.path)">
+          <el-menu-item :index="String(menu.id)" :key="menu.id" @click="openUrl(menu.id,menu.path)">
             <i :class="menu.icon"></i>
             <span slot="title">{{ menu.name }}</span>
           </el-menu-item>
@@ -55,7 +55,7 @@
 
 <script>
 import bus from '../common/bus'
-import { menu_findMenu } from '@/request/api'
+import {menu_findMenu} from '@/request/api'
 
 export default {
   name: 'Sidebar',
@@ -108,11 +108,8 @@ export default {
   },
   computed: {
     activeMenu () {
-      return this.$store.state.menuIdx
+      return String(this.$store.state.menuIdx)
     }
-  },
-  mounted: {
-
   },
   created () {
     bus.$on('collapse', msg => {
