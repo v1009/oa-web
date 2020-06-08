@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: '首页',
+  name: 'Dashboard',
   data () {
     return {
       loading: false

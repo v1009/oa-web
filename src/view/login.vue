@@ -16,6 +16,7 @@
 
 <script>
 
+import Cookies from 'js-cookie'
 import {login} from '@/request/api'
 
 export default {
@@ -49,7 +50,7 @@ export default {
         const code = res.code
         if (code === 200) {
           const accessToken = res.accessToken
-          this.$cookie.set('token', accessToken)
+          Cookies.set('token', accessToken)
           window.sessionStorage.setItem('token', accessToken)
           const redirect = decodeURIComponent(this.$route.query.redirect || '/')
           this.$router.push({path: redirect})
