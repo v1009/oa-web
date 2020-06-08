@@ -16,5 +16,13 @@
 
 开发工具：前端（vscode) ,后台 （idea 2018）
 
-前端地址：https://github.com/v1009/oa-web.git
-后端地址：https://github.com/v1009/oa-jk.git
+员工端：
+
+web地址：https://github.com/v1009/oa-web.git
+接口地址：https://github.com/v1009/oa-jk.git
+
+管理端：
+
+web地址：https://github.com/v1009/oa-admin-web.git
+接口地址：https://github.com/v1009/oa-admin-jk.git
+
