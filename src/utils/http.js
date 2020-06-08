@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 window.baseUrl = 'http://localhost:9141/'
 
@@ -10,7 +11,7 @@ axios.interceptors.request.use(
   config => {
     config.data = JSON.stringify(config.data)
     // 这里的config包含每次请求的内容
-    const token = window.sessionStorage.getItem('token')
+    const token = Cookies.get('token')
     if (token) {
       config.headers['Token'] = token
     }

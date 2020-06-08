@@ -34,6 +34,11 @@
             <el-button
               type="text"
               size="mini"
+              @click="handleConfigMenu(scope.$index, scope.row)">配置菜单
+            </el-button>
+            <el-button
+              type="text"
+              size="mini"
               @click="handleEdit(scope.$index, scope.row)">编辑
             </el-button>
             <el-button
@@ -47,7 +52,7 @@
       <div style="margin-top: 15px;">
         <el-pagination
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="currPage"
           background
           layout="prev, pager, next"
           :total="10">
@@ -62,6 +67,7 @@
 import {role_list, role_del} from '@/request/api'
 import RoleAdd from '@/view/security/role/add'
 import RoleModify from '@/view/security/role/modify'
+import ConfigMenu from '@/view/security/role/configMenu'
 
 export default {
   name: 'List',
@@ -115,7 +121,7 @@ export default {
     add () {
       const me = this
       const popupLayer = this.$layer.iframe({
-        title: '添加用户',
+        title: '添加角色',
         shadeClose: false,
         area: ['500px', '450px'],
         content: {
@@ -177,6 +183,24 @@ export default {
         })
       }).catch(() => {
 
+      })
+    },
+    handleConfigMenu (index, row) {
+      const roleId = row.roleId
+      const popupLayer = this.$layer.iframe({
+        title: '配置菜单',
+        shadeClose: false,
+        area: ['500px', '450px'],
+        content: {
+          content: ConfigMenu, // 传递的组件对象
+          parent: this, // 当前的vue对象
+          data: {// props
+            roleId: roleId,
+            closeParentLayer () {
+              this.$layer.close(popupLayer)
+            }
+          }
+        }
       })
     }
   },
