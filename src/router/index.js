@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import UserList from '@/view/security/user/list.vue'
+import RoleList from '@/view/security/role/list.vue'
+import MenuList from '@/view/security/menu/list.vue'
+import DailyList from '@/view/daily/list.vue'
 
 Vue.use(Router)
 
@@ -21,7 +25,7 @@ export default new Router({
         },
         {
           path: '/security/user/list',
-          component: resolve => require(['../view/security/user/list.vue'], resolve)
+          component: UserList
         },
         {
           path: '/security/user/add',
@@ -33,7 +37,7 @@ export default new Router({
         },
         {
           path: '/security/role/list',
-          component: resolve => require(['../view/security/role/list.vue'], resolve)
+          component: RoleList
         },
         {
           path: '/security/role/add',
@@ -45,7 +49,7 @@ export default new Router({
         },
         {
           path: '/security/menu/list',
-          component: resolve => require(['../view/security/menu/list.vue'], resolve)
+          component: MenuList
         },
         {
           path: '/security/menu/add',
@@ -57,7 +61,7 @@ export default new Router({
         },
         {
           path: '/daily/list',
-          component: resolve => require(['../view/daily/list.vue'], resolve)
+          component: DailyList
         }
       ]
     },
