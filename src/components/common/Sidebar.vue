@@ -18,30 +18,32 @@
       </div>
       <template v-for="menu in items">
         <template v-if="menu.children">
-          <el-submenu :index="String(menu.id)" :key="menu.id">
+          <el-submenu :index="menu.path" :key="menu.id" @click="clickMenu(menu)">
             <template slot="title">
               <i :class="menu.icon"></i>
               <span slot="title">{{ menu.label }}</span>
             </template>
             <template v-for="subItem in menu.children">
-              <el-submenu v-if="subItem.children" :index="subItem.path" :key="subItem.id">
+              <el-submenu v-if="subItem.children" :index="subItem.path" :key="subItem.id" @click="clickMenu(subItem)">
                 <template slot="title">{{ subItem.label}}</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.children"
                   :key="i"
                   :index="threeItem.path"
+                  @click="clickMenu(threeItem)"
                 >{{ threeItem.label }}</el-menu-item>
               </el-submenu>
               <el-menu-item
                 v-else
                 :index="subItem.path"
                 :key="subItem.id"
+                @click="clickMenu(subItem)"
               >{{ subItem.label }}</el-menu-item>
             </template>
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="menu.path" :key="menu.id">
+          <el-menu-item :index="menu.path" :key="menu.id" @click="clickMenu(menu)">
             <i :class="menu.icon"></i>
             <span slot="title">{{ menu.label }}</span>
           </el-menu-item>
@@ -125,6 +127,9 @@ export default {
       this.$router.push({
         path: path
       })
+    },
+    clickMenu (item) {
+      this.$store.commit('selectMenu', item)
     },
     loadMenu () {
       const me = this

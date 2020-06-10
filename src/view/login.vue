@@ -23,8 +23,8 @@ export default {
   name: 'login',
   data () {
     return {
-      username: '',
-      password: '',
+      username: '13157184276',
+      password: 'cvc#dc09',
       loading: false
     }
   },

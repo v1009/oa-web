@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import tab from './modules/tab.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    menuIdx: 1,
-    token: 'sa'
+  modules: {
+    tab
   },
   mutations: {
     changeMenuIdx (state, menu) {
