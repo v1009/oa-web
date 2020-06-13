@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-window.baseUrl = 'http://localhost:9141/'
+window.baseUrl = 'http://121.40.170.90:9141/'
 
 axios.defaults.timeout = 8000
 axios.defaults.baseURL = window.baseUrl

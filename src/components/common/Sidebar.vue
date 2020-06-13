@@ -17,32 +17,32 @@
       </div>
       <template v-for="menu in items">
         <template v-if="menu.children">
-          <el-submenu :index="String(menu.id)" :key="menu.id">
+          <el-submenu :index="menu.path" :key="menu.id" @click="clickMenu(menu)">
             <template slot="title">
               <i :class="menu.icon"></i>
               <span slot="title">{{ menu.label }}</span>
             </template>
             <template v-for="subItem in menu.children">
-              <el-submenu v-if="subItem.children" :index="String(subItem.id)" :key="subItem.id">
+              <el-submenu v-if="subItem.children" :index="subItem.path" :key="subItem.id" @click="clickMenu(subItem)">
                 <template slot="title">{{ subItem.label}}</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.children"
                   :key="i"
-                  :index="String(threeItem.id)"
-                  @click="openUrl(threeItem.id,threeItem.path)"
+                  :index="threeItem.path"
+                  @click="clickMenu(threeItem)"
                 >{{ threeItem.label }}</el-menu-item>
               </el-submenu>
               <el-menu-item
                 v-else
-                :index="String(subItem.id)"
+                :index="subItem.path"
                 :key="subItem.id"
-                @click="openUrl(subItem.id,subItem.path)"
+                @click="clickMenu(subItem)"
               >{{ subItem.label }}</el-menu-item>
             </template>
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="String(menu.id)" :key="menu.id" @click="openUrl(menu.id,menu.path)">
+          <el-menu-item :index="menu.path" :key="menu.id" @click="clickMenu(menu)">
             <i :class="menu.icon"></i>
             <span slot="title">{{ menu.label }}</span>
           </el-menu-item>
@@ -57,7 +57,7 @@ import bus from '../common/bus'
 import { menu_findMenu } from '@/request/api'
 
 export default {
-  label: 'Sidebar',
+  name: 'Sidebar',
   data () {
     return {
       collapse: false,
@@ -65,27 +65,27 @@ export default {
         // {
         //   id: 1,
         //   icon: 'el-icon-platform-eleme',
-        //   label: '控制台',
+        //   name: '控制台',
         //   path: '/dashboard'
         // },
         // {
         //   id: 2,
         //   icon: 'el-icon-star-off',
-        //   label: '权限管理',
-        //   children: [
+        //   name: '权限管理',
+        //   subs: [
         //     {
         //       id: 201,
-        //       label: '用户管理',
+        //       name: '用户管理',
         //       path: '/security/user/list'
         //     },
         //     {
         //       id: 202,
-        //       label: '角色管理',
+        //       name: '角色管理',
         //       path: '/security/role/list'
         //     },
         //     {
         //       id: 203,
-        //       label: '菜单管理',
+        //       name: '菜单管理',
         //       path: '/security/menu/list'
         //     }
         //   ]
@@ -93,11 +93,11 @@ export default {
         // {
         //   id: 3,
         //   icon: 'el-icon-picture-outline',
-        //   label: '日报管理',
-        //   children: [
+        //   name: '日报管理',
+        //   subs: [
         //     {
         //       id: 301,
-        //       label: '日报列表',
+        //       name: '日报列表',
         //       path: '/daily/list'
         //     }
         //   ]
@@ -107,7 +107,7 @@ export default {
   },
   computed: {
     activeMenu () {
-      return String(this.$store.state.menuIdx)
+      return this.$route.path
     }
   },
   mounted () {
@@ -126,6 +126,9 @@ export default {
       this.$router.push({
         path: path
       })
+    },
+    clickMenu (item) {
+      this.$store.commit('selectMenu', item)
     },
     loadMenu () {
       const me = this

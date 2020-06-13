@@ -5,7 +5,12 @@
       <i :class="collapse ? 'el-icon-s-unfold':'el-icon-s-fold'"></i>
     </div>
     <!--折叠按钮-->
-
+    <div class="navBox">
+        <el-breadcrumb class="currentNav" separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item  v-if="current">{{current.label}}</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
     <!--左边头像-->
     <div class="head_right">
       <div class="user-avator"><img src="../../assets/header.jpeg"></div>
@@ -26,7 +31,7 @@
 
 <script>
 import bus from '../common/bus'
-
+import {mapState} from 'vuex'
 export default {
   name: 'Header',
   data () {
@@ -48,11 +53,30 @@ export default {
       this.collapse = !this.collapse
       bus.$emit('collapse', this.collapse)
     }
+  },
+  computed: {
+    ...mapState({
+      current: state => state.tab.currentMenu
+    })
   }
 }
 </script>
 
 <style scoped>
+  .el-breadcrumb__item:last-child .el-breadcrumb__inner {   /*面包屑除首页之外的按钮字体颜色*/
+    color: #f4f4f4;
+  }
+  .el-breadcrumb__inner a, .el-breadcrumb__inner.is-link{   /*面包屑除首页字体颜色*/
+    color: #fff;
+  }
+  .navBox{
+    float: left;
+    height: 50px;
+    max-width: 200px;
+  }
+  .currentNav{
+    line-height: 50px;
+  }
   .user-name {
     margin-left: 10px;
     color: #393939;
