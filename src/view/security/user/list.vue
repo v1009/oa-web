@@ -6,54 +6,71 @@
           <el-input v-model="search.form.userName"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="doSearch(1)" :loading="search.loading">查询</el-button>
+          <el-button
+            type="primary"
+            @click="doSearch(1)"
+            :loading="search.loading"
+          >查询</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="x-oper">
-      <el-button type="success" size="small" @click="add">添加用户</el-button>
+      <el-button
+        type="success"
+        size="small"
+        @click="addUser"
+      >添加用户</el-button>
     </div>
     <div>
       <el-table
         :data="tableData"
         border
-        style="width: 100%">
+        style="width: 100%"
+      >
         <el-table-column
           prop="userPhone"
           label="手机号"
-          width="120">
+          width="120"
+        >
         </el-table-column>
         <el-table-column
           prop="userName"
           label="用户名称"
-          width="120">
+          width="120"
+        >
         </el-table-column>
         <el-table-column
           prop="userEmail"
-          label="邮箱">
+          label="邮箱"
+        >
         </el-table-column>
         <el-table-column
           prop="address"
-          label="地址">
+          label="地址"
+        >
         </el-table-column>
         <el-table-column
           label="操作"
-          width="180">
+          width="180"
+        >
           <template slot-scope="scope">
             <el-button
               type="text"
               size="mini"
-              @click="handleConfigRole(scope.$index, scope.row)">配置角色
+              @click="handleConfigRole(scope.$index, scope.row)"
+            >配置角色
             </el-button>
             <el-button
               type="text"
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑
+              @click="handleEdit(scope.$index, scope.row)"
+            >编辑
             </el-button>
             <el-button
               type="text"
               size="mini"
-              @click="handleDelete(scope.$index, scope.row)">删除
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除
             </el-button>
           </template>
         </el-table-column>
@@ -64,16 +81,41 @@
           :current-page="currPage"
           background
           layout="prev, pager, next"
-          :total="10">
+          :total="10"
+        >
         </el-pagination>
       </div>
     </div>
+    <!-- 添加用户 -->
+    <div>
+      <el-dialog
+        title="新增用户"
+        :visible.sync="add.visible"
+        :close-on-click-modal="false"
+      >
+        <UserAdd @closeAddUserDialog="closeAddUserDialog"></UserAdd>
+      </el-dialog>
+    </div>
+    <!-- 编辑用户 -->
+    <div>
+      <el-dialog
+        title="编辑用户"
+        :visible.sync="modify.visible"
+        :close-on-click-modal="false"
+      >
+        <UserModify
+          @closeMoidifyUserDialog="closeMoidifyUserDialog"
+          :userId="modify.userId"
+        ></UserModify>
+      </el-dialog>
+    </div>
+
   </div>
 </template>
 
 <script>
 
-import {user_list, user_del} from '@/request/api'
+import { user_list, user_del } from '@/request/api'
 import UserAdd from '@/view/security/user/add'
 import UserModify from '@/view/security/user/modify'
 import ConfigRole from '@/view/security/user/configRole'
@@ -89,8 +131,20 @@ export default {
         form: {
           userName: ''
         }
+      },
+      add: {
+        visible: false
+      },
+      modify: {
+        visible: false,
+        userId: 0
       }
     }
+  },
+  components: {
+    UserAdd: UserAdd,
+    UserModify: UserModify,
+    ConfigRole: ConfigRole
   },
   methods: {
     doSearch (currPage) {
@@ -127,43 +181,20 @@ export default {
         return '否'
       }
     },
-    add () {
-      const me = this
-      const popupLayer = this.$layer.iframe({
-        title: '添加用户',
-        shadeClose: false,
-        area: ['500px', '450px'],
-        content: {
-          content: UserAdd, // 传递的组件对象
-          parent: this, // 当前的vue对象
-          data: {// props
-            closeParentLayer () {
-              this.$layer.close(popupLayer)
-              me.loadData()
-            }
-          }
-        }
-      })
+    addUser () {
+      this.add.visible = true
+    },
+    closeAddUserDialog () {
+      this.add.visible = false
+      this.loadData()
     },
     handleEdit (index, row) {
-      const me = this
-      const userId = row.userId
-      const popupLayer = this.$layer.iframe({
-        title: '编辑用户',
-        shadeClose: false,
-        area: ['500px', '450px'],
-        content: {
-          content: UserModify, // 传递的组件对象
-          parent: this, // 当前的vue对象
-          data: {// props
-            userId: userId,
-            closeParentLayer () {
-              this.$layer.close(popupLayer)
-              me.loadData()
-            }
-          }
-        }
-      })
+      this.modify.userId = row.userId
+      this.modify.visible = true
+    },
+    closeMoidifyUserDialog () {
+      this.modify.visible = false
+      this.loadData()
     },
     handleDelete (index, row) {
       const me = this
@@ -218,24 +249,22 @@ export default {
 </script>
 
 <style scoped>
+.demo-table-expand {
+  font-size: 0;
+}
 
-  .demo-table-expand {
-    font-size: 0;
-  }
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
 
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
 
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
-
-  .el-table .cell {
-    white-space: pre-line !important;
-  }
-
+.el-table .cell {
+  white-space: pre-line !important;
+}
 </style>

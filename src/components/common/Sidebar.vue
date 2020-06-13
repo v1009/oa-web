@@ -8,7 +8,6 @@
       text-color="rgba(255, 255, 255, .7)"
       active-text-color="rgba(255, 255, 255, .7)"
       unique-opened
-      router
     >
       <div class="header-slot--left" :class="collapse? 'header-slot--stop':''">
         <div>

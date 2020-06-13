@@ -14,7 +14,11 @@
         <el-input v-model="form.address"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" :loading="btn.submit.loading">提交</el-button>
+        <el-button
+          type="primary"
+          @click="onSubmit"
+          :loading="btn.submit.loading"
+        >提交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -22,7 +26,7 @@
 
 <script>
 
-import {user_modify, user_findModelByUserId} from '@/request/api'
+import { user_modify, user_findModelByUserId } from '@/request/api'
 
 export default {
   name: 'modify',
@@ -42,11 +46,7 @@ export default {
     }
   },
   props: {
-    userId: String,
-    closeParentLayer: {
-      type: Function,
-      default: null
-    }
+    userId: String
   },
   methods: {
     onSubmit () {
@@ -115,16 +115,33 @@ export default {
       })
     }
   },
+  beforeCreate () {
+    console.log('beforeCreate')
+  },
+  created () {
+    console.log('create')
+  },
+  beforeMount () {
+    console.log('beforeMount')
+  },
   mounted () {
+    console.log('mounted')
     this.loadUserInfo()
+  },
+  updated () {
+    console.log('updated')
+  },
+  beforeDestroy () {
+    console.log('beforeDestroy')
+  },
+  destroyed () {
+    console.log('destroyed')
   }
 }
 </script>
 
 <style scoped>
-
-  .page {
-    padding: 15px;
-  }
-
+.page {
+  padding: 15px;
+}
 </style>
