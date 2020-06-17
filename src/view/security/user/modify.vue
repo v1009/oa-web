@@ -90,7 +90,7 @@ export default {
             message: res.resMsg,
             type: 'success'
           })
-          me.closeParentLayer()
+          me.$emit('closeMoidifyUserDialog')
         } else {
           me.$message.error(res.resMsg)
         }
@@ -115,27 +115,8 @@ export default {
       })
     }
   },
-  beforeCreate () {
-    console.log('beforeCreate')
-  },
-  created () {
-    console.log('create')
-  },
-  beforeMount () {
-    console.log('beforeMount')
-  },
   mounted () {
-    console.log('mounted')
     this.loadUserInfo()
-  },
-  updated () {
-    console.log('updated')
-  },
-  beforeDestroy () {
-    console.log('beforeDestroy')
-  },
-  destroyed () {
-    console.log('destroyed')
   }
 }
 </script>

@@ -43,11 +43,7 @@ export default {
     }
   },
   props: {
-    userId: String,
-    closeParentLayer: {
-      type: Function,
-      default: null
-    }
+    userId: String
   },
   methods: {
     queryRoleByUser () {
@@ -104,7 +100,7 @@ export default {
             message: res.resMsg,
             type: 'success'
           })
-          me.closeParentLayer()
+          me.$emit('closeConfigRoleDialog')
         } else {
           this.$message.error(res.resMsg)
         }

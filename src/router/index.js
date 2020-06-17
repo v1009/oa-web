@@ -56,10 +56,6 @@ export default new Router({
           component: resolve => require(['../view/security/menu/add.vue'], resolve)
         },
         {
-          path: '/security/menu',
-          component: resolve => require(['../view/security/Menu.vue'], resolve)
-        },
-        {
           path: '/daily/list',
           component: DailyList
         }

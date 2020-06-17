@@ -92,6 +92,8 @@
         title="新增用户"
         :visible.sync="add.visible"
         :close-on-click-modal="false"
+        :destroy-on-close="true"
+        v-if="add.visible"
       >
         <UserAdd @closeAddUserDialog="closeAddUserDialog"></UserAdd>
       </el-dialog>
@@ -102,6 +104,7 @@
         title="编辑用户"
         :visible.sync="modify.visible"
         :close-on-click-modal="false"
+        v-if="modify.visible"
       >
         <UserModify
           @closeMoidifyUserDialog="closeMoidifyUserDialog"
@@ -109,7 +112,20 @@
         ></UserModify>
       </el-dialog>
     </div>
-
+    <!-- 配置角色 -->
+    <div>
+      <el-dialog
+        title="配置角色"
+        :visible.sync="configRole.visible"
+        :close-on-click-modal="false"
+        v-if="configRole.visible"
+      >
+        <ConfigRole
+          @closeConfigRoleDialog="closeConfigRoleDialog"
+          :userId="configRole.userId"
+        ></ConfigRole>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -136,6 +152,10 @@ export default {
         visible: false
       },
       modify: {
+        visible: false,
+        userId: 0
+      },
+      configRole: {
         visible: false,
         userId: 0
       }
@@ -196,6 +216,14 @@ export default {
       this.modify.visible = false
       this.loadData()
     },
+    handleConfigRole (index, row) {
+      this.configRole.userId = row.userId
+      this.configRole.visible = true
+    },
+    closeConfigRoleDialog () {
+      this.configRole.visible = false
+      this.loadData()
+    },
     handleDelete (index, row) {
       const me = this
       const userId = row.userId
@@ -221,24 +249,6 @@ export default {
         })
       }).catch(() => {
 
-      })
-    },
-    handleConfigRole (index, row) {
-      const userId = row.userId
-      const popupLayer = this.$layer.iframe({
-        title: '配置角色',
-        shadeClose: false,
-        area: ['500px', '450px'],
-        content: {
-          content: ConfigRole, // 传递的组件对象
-          parent: this, // 当前的vue对象
-          data: {// props
-            userId: userId,
-            closeParentLayer () {
-              this.$layer.close(popupLayer)
-            }
-          }
-        }
       })
     }
   },

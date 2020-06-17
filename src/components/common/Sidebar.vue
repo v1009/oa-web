@@ -9,21 +9,36 @@
       active-text-color="rgba(255, 255, 255, .7)"
       unique-opened
     >
-      <div class="header-slot--left" :class="collapse? 'header-slot--stop':''">
+      <div
+        class="header-slot--left"
+        :class="collapse? 'header-slot--stop':''"
+      >
         <div>
-          <img src="../../assets/logo.png" class="logo" />
+          <img
+            src="../../assets/logo.png"
+            class="logo"
+          />
           <span class="logo-text">管理系统</span>
         </div>
       </div>
       <template v-for="menu in items">
         <template v-if="menu.children">
-          <el-submenu :index="menu.path" :key="menu.id" @click="clickMenu(menu)">
+          <el-submenu
+            :index="menu.path"
+            :key="menu.id"
+            @click="clickMenu(menu)"
+          >
             <template slot="title">
               <i :class="menu.icon"></i>
               <span slot="title">{{ menu.label }}</span>
             </template>
             <template v-for="subItem in menu.children">
-              <el-submenu v-if="subItem.children" :index="subItem.path" :key="subItem.id" @click="clickMenu(subItem)">
+              <el-submenu
+                v-if="subItem.children"
+                :index="subItem.path"
+                :key="subItem.id"
+                @click="clickMenu(subItem)"
+              >
                 <template slot="title">{{ subItem.label}}</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.children"
@@ -42,7 +57,11 @@
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="menu.path" :key="menu.id" @click="clickMenu(menu)">
+          <el-menu-item
+            :index="menu.path"
+            :key="menu.id"
+            @click="clickMenu(menu)"
+          >
             <i :class="menu.icon"></i>
             <span slot="title">{{ menu.label }}</span>
           </el-menu-item>
@@ -123,12 +142,19 @@ export default {
       this.$store.commit('changeMenuIdx', {
         id: id
       })
+      alert(path)
       this.$router.push({
         path: path
       })
     },
-    clickMenu (item) {
-      this.$store.commit('selectMenu', item)
+    clickMenu (menu) {
+      console.log('cccc')
+      console.log(menu)
+      this.$store.commit('selectMenu', menu)
+      const path = menu.path
+      this.$router.push({
+        path: path
+      })
     },
     loadMenu () {
       const me = this
