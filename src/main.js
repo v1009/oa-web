@@ -6,8 +6,6 @@ import store from './store'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css' // 默认主题
-import layer from 'vue-layer'
-import 'vue-layer/lib/vue-layer.css'
 import 'default-passive-events' // 解决某个警告
 // 兼容ie
 import 'babel-polyfill'
@@ -15,8 +13,6 @@ import Cookies from 'js-cookie'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-// layer定义
-Vue.prototype.$layer = layer(Vue)
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

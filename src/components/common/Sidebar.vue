@@ -9,25 +9,15 @@
       active-text-color="rgba(255, 255, 255, .7)"
       unique-opened
     >
-      <div
-        class="header-slot--left"
-        :class="collapse? 'header-slot--stop':''"
-      >
+      <div class="header-slot--left" :class="collapse? 'header-slot--stop':''">
         <div>
-          <img
-            src="../../assets/logo.png"
-            class="logo"
-          />
-          <span class="logo-text">管理系统</span>
+          <img src="../../assets/logo.png" class="logo" />
+          <span class="logo-text">OA管理系统</span>
         </div>
       </div>
       <template v-for="menu in items">
         <template v-if="menu.children">
-          <el-submenu
-            :index="menu.path"
-            :key="menu.id"
-            @click="clickMenu(menu)"
-          >
+          <el-submenu :index="String(menu.id)" :key="menu.id" @click="clickMenu(menu)">
             <template slot="title">
               <i :class="menu.icon"></i>
               <span slot="title">{{ menu.label }}</span>
@@ -35,7 +25,7 @@
             <template v-for="subItem in menu.children">
               <el-submenu
                 v-if="subItem.children"
-                :index="subItem.path"
+                :index="String(subItem.id)"
                 :key="subItem.id"
                 @click="clickMenu(subItem)"
               >
@@ -43,13 +33,13 @@
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.children"
                   :key="i"
-                  :index="threeItem.path"
+                  :index="String(threeItem.id)"
                   @click="clickMenu(threeItem)"
                 >{{ threeItem.label }}</el-menu-item>
               </el-submenu>
               <el-menu-item
                 v-else
-                :index="subItem.path"
+                :index="String(subItem.id)"
                 :key="subItem.id"
                 @click="clickMenu(subItem)"
               >{{ subItem.label }}</el-menu-item>
@@ -57,11 +47,7 @@
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item
-            :index="menu.path"
-            :key="menu.id"
-            @click="clickMenu(menu)"
-          >
+          <el-menu-item :index="String(menu.id)" :key="menu.id" @click="clickMenu(menu)">
             <i :class="menu.icon"></i>
             <span slot="title">{{ menu.label }}</span>
           </el-menu-item>
@@ -126,7 +112,7 @@ export default {
   },
   computed: {
     activeMenu () {
-      return this.$route.path
+      return String(this.$store.state.menuIdx)
     }
   },
   mounted () {
@@ -138,19 +124,8 @@ export default {
     })
   },
   methods: {
-    openUrl (id, path) {
-      this.$store.commit('changeMenuIdx', {
-        id: id
-      })
-      alert(path)
-      this.$router.push({
-        path: path
-      })
-    },
     clickMenu (menu) {
-      console.log('cccc')
-      console.log(menu)
-      this.$store.commit('selectMenu', menu)
+      this.$store.commit('changeMenuIdx', menu.id)
       const path = menu.path
       this.$router.push({
         path: path

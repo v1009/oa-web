@@ -8,13 +8,8 @@
       :default-expand-all="true"
       :default-checked-keys="checkMenuData"
       :props="defaultProps"
-    >
-    </el-tree>
-    <el-button
-      type="primary"
-      @click="onSubmit"
-      :loading="btn.submit.loading"
-    >保存</el-button>
+    ></el-tree>
+    <el-button type="primary" @click="onSubmit" :loading="btn.submit.loading">保存</el-button>
   </div>
 </template>
 
@@ -51,16 +46,24 @@ export default {
         if (code === 200) {
           me.menuData = res.data
           me.checkMenuData = []
-          for (var i = 0; i < me.menuData.length; i++) {
-            var menu = me.menuData[i]
-            if (menu.checked) {
-              me.checkMenuData.push(menu.id)
-            }
-          }
+          me.eachCheckedNodes(me.menuData)
         } else {
           this.$message.error(res.resMsg)
         }
       })
+    },
+    eachCheckedNodes (nodeList) {
+      for (var i = 0; i < nodeList.length; i++) {
+        var nodeChildList = nodeList[i].children
+        if (nodeChildList && nodeChildList.length > 0) {
+          this.eachCheckedNodes(nodeChildList)
+        } else {
+          var menu = nodeList[i]
+          if (menu.checked) {
+            this.checkMenuData.push(menu.id)
+          }
+        }
+      }
     },
     getCheckedNodeIds () {
       var allCheckedNodeIds = []
@@ -72,8 +75,8 @@ export default {
         }
       }
       if (checkedNodeList.length > 0) {
-        for (var i = 0; i < checkedNodeList.length; i++) {
-          allCheckedNodeIds.push(checkedNodeList[i].id)
+        for (var k = 0; k < checkedNodeList.length; k++) {
+          allCheckedNodeIds.push(checkedNodeList[k].id)
         }
       }
       return allCheckedNodeIds
@@ -92,6 +95,7 @@ export default {
       params.roleId = me.roleId
       params.menuIds = checkNodeIds.join(',')
       me.btn.submit.loading = true
+      console.log(params)
       role_addMenuToRole(params).then(res => {
         me.btn.submit.loading = false
         const code = res.code

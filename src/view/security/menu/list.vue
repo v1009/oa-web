@@ -1,49 +1,68 @@
 <template>
-  <el-row>
-    <el-col :span="4">
-      <div>
-        <el-button type="success" size="small" @click="addMenu">新增菜单</el-button>
-      </div>
-      <el-tree
-        :data="menuData"
-        node-key="id"
-        default-expand-all
-        @node-drag-start="handleDragStart"
-        @node-drag-enter="handleDragEnter"
-        @node-drag-leave="handleDragLeave"
-        @node-drag-over="handleDragOver"
-        @node-drag-end="handleDragEnd"
-        @node-drop="handleDrop"
-        @node-click="nodeClick"
-        draggable
-        :expand-on-click-node="false"
-        :allow-drop="allowDrop"
-        :allow-drag="allowDrag">
-      </el-tree>
-    </el-col>
-    <el-col :span="20">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="菜单名称">
-          <el-input v-model="form.menuName"></el-input>
-        </el-form-item>
-        <el-form-item label="跳转路径">
-          <el-input v-model="form.path"></el-input>
-        </el-form-item>
-        <el-form-item label="图标">
-          <el-input v-model="form.icon"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" size="small" @click="doUpdate" :loading="btn.submit.loading">提交</el-button>
-        </el-form-item>
-      </el-form>
-    </el-col>
-  </el-row>
+  <div>
+    <el-row>
+      <el-col :span="4">
+        <div>
+          <el-button type="success" size="small" @click="addMenu">新增菜单</el-button>
+        </div>
+        <el-tree
+          :data="menuData"
+          node-key="id"
+          default-expand-all
+          @node-drag-start="handleDragStart"
+          @node-drag-enter="handleDragEnter"
+          @node-drag-leave="handleDragLeave"
+          @node-drag-over="handleDragOver"
+          @node-drag-end="handleDragEnd"
+          @node-drop="handleDrop"
+          @node-click="nodeClick"
+          draggable
+          :expand-on-click-node="false"
+          :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+        ></el-tree>
+      </el-col>
+      <el-col :span="20">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="菜单名称">
+            <el-input v-model="form.menuName"></el-input>
+          </el-form-item>
+          <el-form-item label="跳转路径">
+            <el-input v-model="form.path"></el-input>
+          </el-form-item>
+          <el-form-item label="图标">
+            <el-input v-model="form.icon"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              size="small"
+              @click="doUpdate"
+              :loading="btn.submit.loading"
+            >提交</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+    <!-- 添加菜单 -->
+    <div>
+      <el-dialog
+        title="添加菜单"
+        :visible.sync="add.visible"
+        :close-on-click-modal="false"
+        :destroy-on-close="true"
+        v-if="add.visible"
+      >
+        <MenuAdd @closeAddMenuDialog="closeAddMenuDialog"></MenuAdd>
+      </el-dialog>
+    </div>
+  </div>
 </template>
 
 <script>
 
 import MenuAdd from '@/view/security/menu/add'
-import {menu_modify, menu_findAllMenu} from '@/request/api'
+import { menu_modify, menu_findAllMenu } from '@/request/api'
 
 export default {
   name: 'list',
@@ -64,8 +83,14 @@ export default {
         menuName: '',
         path: '',
         icon: ''
+      },
+      add: {
+        visible: false
       }
     }
+  },
+  components: {
+    MenuAdd: MenuAdd
   },
   methods: {
     handleDragStart (node, ev) {
@@ -97,22 +122,11 @@ export default {
       return draggingNode.data.label.indexOf('三级 3-2-2') === -1
     },
     addMenu () {
-      const me = this
-      const popupLayer = this.$layer.iframe({
-        title: '添加菜单',
-        shadeClose: false,
-        area: ['500px', '450px'],
-        content: {
-          content: MenuAdd, // 传递的组件对象
-          parent: this, // 当前的vue对象
-          data: {// props
-            closeParentLayer () {
-              this.$layer.close(popupLayer)
-              me.loadAllMenu()
-            }
-          }
-        }
-      })
+      this.add.visible = true
+    },
+    closeAddMenuDialog () {
+      this.add.visible = false
+      this.loadAllMenu()
     },
     loadAllMenu () {
       const me = this
@@ -191,5 +205,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

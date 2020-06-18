@@ -8,7 +8,8 @@
           :value="valueId"
           :clearable="isClearable"
           :accordion="isAccordion"
-          @getValue="getValue($event)"/>
+          @getValue="getValue($event)"
+        />
       </el-form-item>
       <el-form-item label="菜单名称">
         <el-input v-model="form.menuName"></el-input>
@@ -29,7 +30,7 @@
 <script>
 
 import SelectTree from '@/components/plugin/TreeSelect.vue'
-import {menu_add, menu_findAllMenu} from '@/request/api'
+import { menu_add, menu_findAllMenu } from '@/request/api'
 
 export default {
   name: 'add',
@@ -59,12 +60,6 @@ export default {
       },
       // 选项列表（必选）
       menuData: null
-    }
-  },
-  props: {
-    closeParentLayer: {
-      type: Function,
-      default: null
     }
   },
   computed: {},
@@ -102,7 +97,7 @@ export default {
             message: res.resMsg,
             type: 'success'
           })
-          me.closeParentLayer()
+          me.$emit('closeAddMenuDialog')
         } else {
           me.$message.error(res.resMsg)
         }
@@ -132,9 +127,7 @@ export default {
 </script>
 
 <style scoped>
-
-  .page {
-    padding: 15px;
-  }
-
+.page {
+  padding: 15px;
+}
 </style>
