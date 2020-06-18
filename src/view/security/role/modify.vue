@@ -5,7 +5,11 @@
         <el-input v-model="form.roleName"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" :loading="btn.submit.loading">提交</el-button>
+        <el-button
+          type="primary"
+          @click="onSubmit"
+          :loading="btn.submit.loading"
+        >提交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -13,7 +17,7 @@
 
 <script>
 
-import {role_modify} from '@/request/api'
+import { role_modify } from '@/request/api'
 
 export default {
   name: 'add',
@@ -31,11 +35,7 @@ export default {
   },
   props: {
     roleId: String,
-    roleName: String,
-    closeParentLayer: {
-      type: Function,
-      default: null
-    }
+    roleName: String
   },
   methods: {
     onSubmit () {
@@ -60,7 +60,7 @@ export default {
             message: res.resMsg,
             type: 'success'
           })
-          me.closeParentLayer()
+          me.$emit('closeMoidifyRoleDialog')
         } else {
           me.$message.error(res.resMsg)
         }
@@ -78,9 +78,7 @@ export default {
 </script>
 
 <style scoped>
-
-  .page {
-    padding: 15px;
-  }
-
+.page {
+  padding: 15px;
+}
 </style>

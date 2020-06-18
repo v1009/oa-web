@@ -39,11 +39,7 @@ export default {
     }
   },
   props: {
-    roleId: String,
-    closeParentLayer: {
-      type: Function,
-      default: null
-    }
+    roleId: String
   },
   methods: {
     findAllMenuByRole () {
@@ -66,26 +62,35 @@ export default {
         }
       })
     },
-    getCheckedNodes () {
-      return this.$refs.tree.getCheckedNodes()
+    getCheckedNodeIds () {
+      var allCheckedNodeIds = []
+      var halfCheckedNodeList = this.$refs.tree.getHalfCheckedNodes()
+      var checkedNodeList = this.$refs.tree.getCheckedNodes()
+      if (halfCheckedNodeList.length > 0) {
+        for (var i = 0; i < halfCheckedNodeList.length; i++) {
+          allCheckedNodeIds.push(halfCheckedNodeList[i].id)
+        }
+      }
+      if (checkedNodeList.length > 0) {
+        for (var i = 0; i < checkedNodeList.length; i++) {
+          allCheckedNodeIds.push(checkedNodeList[i].id)
+        }
+      }
+      return allCheckedNodeIds
     },
     onSubmit () {
       const me = this
-      const checkNodes = me.getCheckedNodes()
-      if (checkNodes.length < 1) {
+      const checkNodeIds = me.getCheckedNodeIds()
+      if (checkNodeIds.length < 1) {
         this.$message({
           message: '请选择要配置的菜单',
           type: 'warning'
         })
         return false
       }
-      var menuIdArr = []
-      for (var i in checkNodes) {
-        menuIdArr.push(checkNodes[i].id)
-      }
       const params = {}
       params.roleId = me.roleId
-      params.menuIds = menuIdArr.join(',')
+      params.menuIds = checkNodeIds.join(',')
       me.btn.submit.loading = true
       role_addMenuToRole(params).then(res => {
         me.btn.submit.loading = false
@@ -95,7 +100,7 @@ export default {
             message: res.resMsg,
             type: 'success'
           })
-          me.closeParentLayer()
+          me.$emit('closeConfigMenuDialog')
         } else {
           this.$message.error(res.resMsg)
         }

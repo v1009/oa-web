@@ -29,12 +29,6 @@ export default {
       }
     }
   },
-  props: {
-    closeParentLayer: {
-      type: Function,
-      default: null
-    }
-  },
   methods: {
     onSubmit () {
       const me = this
@@ -57,7 +51,7 @@ export default {
             message: res.resMsg,
             type: 'success'
           })
-          me.closeParentLayer()
+          me.$emit('closeAddRoleDialog')
         } else {
           me.$message.error(res.resMsg)
         }
